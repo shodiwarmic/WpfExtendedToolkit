@@ -59,49 +59,66 @@
                 <ColumnDefinition x:Name="firstContentColumn"
                                   Width="*" />
                 <ColumnDefinition x:Name="secondContentColumn"
+                                  Width="*" />
+                <ColumnDefinition x:Name="thirdContentColumn"
                                   Width="Auto" />
               </Grid.ColumnDefinitions>
+
+              <Grid.RowDefinitions>
+                <RowDefinition x:Name="firstContentRow"
+                               Height="*"/>
+                <RowDefinition x:Name="secondContentRow"
+                               Height="*"/>
+              </Grid.RowDefinitions>
+              
               <ContentPresenter x:Name="contentPresenter"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
                                 Focusable="False"
                                 Margin="{TemplateBinding Padding}"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
-              <Grid x:Name="gridContent"
-                    Grid.Column="1"
-                    Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
                 <RepeatButton x:Name="PART_IncreaseButton"
+                              Grid.Column="2"
+                              Grid.Row="0"
                               Style="{DynamicResource {x:Static themes:ResourceKeys.SpinnerButtonStyleKey}}"
                               IsTabStop="{TemplateBinding IsTabStop}"
-                              ContentTemplate="{StaticResource IncreaseGlyphNormalKey}">
+                              ContentTemplate="{StaticResource IncreaseGlyphNormalKey}"
+                              Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
                 </RepeatButton>
 
                 <RepeatButton x:Name="PART_DecreaseButton"
+                              Grid.Column="2"
                               Grid.Row="1"
                               Style="{DynamicResource {x:Static themes:ResourceKeys.SpinnerButtonStyleKey}}"
                               IsTabStop="{TemplateBinding IsTabStop}"
-                              ContentTemplate="{StaticResource DecreaseGlyphNormalKey}" >
+                              ContentTemplate="{StaticResource DecreaseGlyphNormalKey}"
+                              Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
                 </RepeatButton>
-
               </Grid>
-            </Grid>
           </Border>
+          
           <ControlTemplate.Triggers>
             <Trigger Property="ShowButtonSpinner"
                      Value="False">
               <Setter Property="Visibility"
                       Value="Hidden"
-                      TargetName="gridContent" />
+                      TargetName="PART_IncreaseButton" />
+              <Setter Property="Visibility"
+                      Value="Hidden"
+                      TargetName="PART_DecreaseButton" />
               <Setter Property="Width"
                       Value="0"
-                      TargetName="gridContent" />
+                      TargetName="PART_IncreaseButton" />
+              <Setter Property="Width"
+                      Value="0"
+                      TargetName="PART_DecreaseButton" />
             </Trigger>
+            
             <Trigger Property="IsEnabled"
                      Value="False">
               <Setter Property="Background"
@@ -121,6 +138,7 @@
                       Property="ContentTemplate"
                       Value="{StaticResource DecreaseGlyphDisabledKey}" />
             </Trigger>
+
             <Trigger Property="ButtonSpinnerLocation"
                      Value="Left">
               <Setter TargetName="firstContentColumn"
@@ -129,12 +147,67 @@
               <Setter TargetName="secondContentColumn"
                       Property="Width"
                       Value="*" />
+              <Setter TargetName="thirdContentColumn"
+                      Property="Width"
+                      Value="*" />
+
               <Setter TargetName="contentPresenter"
                       Property="Grid.Column"
                       Value="1" />
-              <Setter TargetName="gridContent"
+
+              <Setter TargetName="PART_IncreaseButton"
                       Property="Grid.Column"
                       Value="0" />
+              <Setter TargetName="PART_IncreaseButton"
+                      Property="Grid.Row"
+                      Value="0" />
+
+              <Setter TargetName="PART_DecreaseButton"
+                      Property="Grid.Column"
+                      Value="0" />
+              <Setter TargetName="PART_DecreaseButton"
+                      Property="Grid.Row"
+                      Value="1" />
+            </Trigger>
+
+            <Trigger Property="ButtonSpinnerLocation"
+                     Value="SplitHorizontal">
+              <Setter TargetName="firstContentColumn"
+                      Property="Width"
+                      Value="Auto" />
+              <Setter TargetName="secondContentColumn"
+                      Property="Width"
+                      Value="*" />
+              <Setter TargetName="thirdContentColumn"
+                      Property="Width"
+                      Value="Auto" />
+              
+              <Setter TargetName="contentPresenter"
+                      Property="Grid.Column"
+                      Value="1" />
+              <Setter TargetName="contentPresenter"
+                      Property="Grid.ColumnSpan"
+                      Value="1" />
+
+              <Setter TargetName="PART_IncreaseButton"
+                      Property="Grid.Column"
+                      Value="2" />
+              <Setter TargetName="PART_IncreaseButton"
+                      Property="Grid.Row"
+                      Value="0" />
+              <Setter TargetName="PART_IncreaseButton"
+                      Property="Grid.RowSpan"
+                      Value="2" />
+
+              <Setter TargetName="PART_DecreaseButton"
+                      Property="Grid.Column"
+                      Value="0" />
+              <Setter TargetName="PART_DecreaseButton"
+                      Property="Grid.Row"
+                      Value="0" />
+              <Setter TargetName="PART_DecreaseButton"
+                      Property="Grid.RowSpan"
+                      Value="2" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
