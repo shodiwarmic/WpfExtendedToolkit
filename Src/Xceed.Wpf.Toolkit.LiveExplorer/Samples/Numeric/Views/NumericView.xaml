@@ -295,6 +295,20 @@
                               HorizontalAlignment="Stretch"
                               Margin="5" />
 
+          <TextBlock Grid.Column="2"
+                     Grid.Row="6"
+                     Text="Button Width"
+                     VerticalAlignment="Center"
+                     Margin="10,0,0,0"/>
+          <xctk:DoubleUpDown Grid.Column="3"
+                             Grid.Row="6"
+                             Minimum="0.0"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Stretch"
+                             FormatString="F1"
+                             Value="{Binding ButtonWidth, ElementName=_doubleUpDown}"
+                             Margin="5"/>
+
           <!-- 3rd column -->
           <TextBlock Grid.Column="4"
                      Text="ButtonSpinnerLocation:"

@@ -62,7 +62,8 @@
                                VerticalContentAlignment="Stretch"
                                AllowSpin="{Binding AllowSpin, RelativeSource={RelativeSource TemplatedParent}}"
                                ShowButtonSpinner="{Binding ShowButtonSpinner, RelativeSource={RelativeSource TemplatedParent}}"
-                               ButtonSpinnerLocation="{Binding ButtonSpinnerLocation, RelativeSource={RelativeSource TemplatedParent}}">
+                               ButtonSpinnerLocation="{Binding ButtonSpinnerLocation, RelativeSource={RelativeSource TemplatedParent}}"
+                               ButtonWidth="{Binding ButtonWidth, RelativeSource={RelativeSource TemplatedParent}}">
             <local:WatermarkTextBox x:Name="PART_TextBox"
                                     BorderThickness="0"
                                     Background="Transparent"

@@ -103,6 +103,17 @@ new UIPropertyMetadata( true ) );
 
     #endregion //ButtonSpinnerLocation
 
+    #region ButtonWidth
+    public double ButtonWidth
+    {
+      get { return (double)GetValue(ButtonWidthProperty); }
+      set { SetValue(ButtonWidthProperty, value); }
+    }
+    public static readonly DependencyProperty ButtonWidthProperty =
+        DependencyProperty.Register("ButtonWidth", typeof(double), typeof(UpDownBase<T>), 
+            new UIPropertyMetadata(SystemParameters.VerticalScrollBarWidth));
+    #endregion //ButtonWidth
+
     #region ClipValueToMinMax
 
     public static readonly DependencyProperty ClipValueToMinMaxProperty = DependencyProperty.Register( "ClipValueToMinMax", typeof( bool ), typeof(

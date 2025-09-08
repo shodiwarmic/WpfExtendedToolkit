@@ -88,7 +88,7 @@
                               Style="{DynamicResource {x:Static themes:ResourceKeys.SpinnerButtonStyleKey}}"
                               IsTabStop="{TemplateBinding IsTabStop}"
                               ContentTemplate="{StaticResource IncreaseGlyphNormalKey}"
-                              Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
+                              Width="{TemplateBinding ButtonWidth}">
                 </RepeatButton>
 
                 <RepeatButton x:Name="PART_DecreaseButton"
@@ -97,7 +97,7 @@
                               Style="{DynamicResource {x:Static themes:ResourceKeys.SpinnerButtonStyleKey}}"
                               IsTabStop="{TemplateBinding IsTabStop}"
                               ContentTemplate="{StaticResource DecreaseGlyphNormalKey}"
-                              Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
+                              Width="{TemplateBinding ButtonWidth}">
                 </RepeatButton>
               </Grid>
           </Border>

@@ -81,6 +81,17 @@ namespace Xceed.Wpf.Toolkit
 
     #endregion //ButtonSpinnerLocation
 
+    #region ButtonWidth
+    public double ButtonWidth
+    {
+      get { return (double)GetValue(ButtonWidthProperty); }
+      set { SetValue(ButtonWidthProperty, value); }
+    }
+    public static readonly DependencyProperty ButtonWidthProperty =
+        DependencyProperty.Register("ButtonWidth", typeof(double), typeof(ButtonSpinner), 
+          new UIPropertyMetadata(SystemParameters.VerticalScrollBarWidth));
+    #endregion //ButtonWidth
+
     #region Content
 
     /// <summary>
