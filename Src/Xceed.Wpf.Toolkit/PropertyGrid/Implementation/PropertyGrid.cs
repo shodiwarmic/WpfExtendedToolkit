@@ -1181,6 +1181,8 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid
 
 
       objectContainerHelper = new ObjectContainerHelper( this, SelectedObject );
+      // Reassign the backed up childrenItemsControl.
+      objectContainerHelper.ChildrenItemsControl = childrenItemsControl;
       objectContainerHelper.ObjectsGenerated += this.ObjectContainerHelper_ObjectsGenerated;
       objectContainerHelper.GenerateProperties();
     }
