@@ -25,7 +25,7 @@ workflow artifacts and attach them to GitHub releases, under upstream's package 
 Info
 ----
 Upstream keeps a "Master" branch that is always synced to the official GitHub version:
-https://github.com/dotnetprojects/WpfExtendedToolkit/tree/Master
+https://github.com/dotnetprojects/WpfExtendedToolkit/tree/master
 
 The "Extended" branch holds the version with patches, and is the only branch this fork
 carries. There is no Master branch here, and the branch rules block one from being
