@@ -21,6 +21,11 @@
     <ProjectReference Include="..\Xceed.Wpf.Toolkit\DotNetProjects.Wpf.Extended.Toolkit.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net4'">
+    <!-- Supplies the .NET Framework 4.0 reference assemblies, which are no longer part of
+         Visual Studio or the GitHub Actions Windows images. Build-time only. -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net40" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net4'">
     <Reference Include="System.Data.Entity">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
