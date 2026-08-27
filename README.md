@@ -42,6 +42,7 @@ Changes to original Toolkit Version:
  - IPAdress Editor in Property Grid
  - Brush Editor (https://colorbox.codeplex.com/)
  - A few AvalonDock fixes form AvalonDock HP
+ - RichTextBox keeps the alt text of pictures (RichTextBoxImage.AltText, stored as the wzDescription property in RTF)
 
 
 Building, CI and releases
