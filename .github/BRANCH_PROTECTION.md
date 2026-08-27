@@ -67,8 +67,10 @@ file. Repeat for the second file.
 ## Notes and prerequisites
 
 - The **Build and test** context only appears in the status-check picker after the CI
-  workflow has run at least once on the repository. Merge the workflow to `Extended`
-  first, then import the rulesets.
+  workflow has reported at least once. A pull request run is enough -- the check does not
+  have to have run on `Extended` itself -- so the pull request that introduces the
+  workflow already registers the name. If the picker cannot find it, type it in by hand;
+  the context is matched by name.
 - If the job in `ci.yml` is ever renamed, the `context` in
   `extended-branch-protection.json` has to be renamed to match, otherwise the required
   check will never be reported and no pull request will be mergeable.
