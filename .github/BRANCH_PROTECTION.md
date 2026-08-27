@@ -22,6 +22,7 @@ the configuration is reviewable and can be re-applied if it is ever changed by h
 | `required_status_checks` | The **Build and test** check from [`workflows/ci.yml`](workflows/ci.yml) must pass, and the branch must be up to date with `Extended` before merging. |
 | `non_fast_forward` | No force pushes. |
 | `deletion` | The branch cannot be deleted. |
+| `allowed_merge_methods` | Only **Create a merge commit** is offered; squash and rebase merges are rejected. This matches upstream, whose `Extended` branch is merged exclusively with merge commits -- 16 of them in the last 120 commits, and no squashes at all. |
 
 `required_approving_review_count` is set to `0`. That still forces every change through a
 pull request with green CI, but it does not deadlock a single maintainer, who cannot
