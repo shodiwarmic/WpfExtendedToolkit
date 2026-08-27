@@ -90,6 +90,19 @@ jobs:
             Where-Object { $_.Extension -in '.nupkg', '.snupkg' -and $_.FullName -like '*\bin\Release\*' } |
             Copy-Item -Destination artifacts/packages
 
+      - name: Upload binaries
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: binaries-${{ env.BUILD_VERSION }}
+          # One folder per target framework, mirroring the build output.
+          path: |
+            Src/Xceed.Wpf.Toolkit/bin/Release/**/DotNetProjects.*.dll
+            Src/Xceed.Wpf.Toolkit/bin/Release/**/DotNetProjects.*.pdb
+            Src/Xceed.Wpf.DataGrid/bin/Release/**/DotNetProjects.*.dll
+            Src/Xceed.Wpf.DataGrid/bin/Release/**/DotNetProjects.*.pdb
+          if-no-files-found: error
+
       - name: Upload packages
         if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4

@@ -1,4 +1,3 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/c7mad20yer1iod92/branch/Extended?svg=true)](https://ci.appveyor.com/project/jogibear9988/wpfextoolkit/branch/Extended)
 [![CI](https://github.com/shodiwarmic/WpfExtendedToolkit/actions/workflows/ci.yml/badge.svg?branch=Extended)](https://github.com/shodiwarmic/WpfExtendedToolkit/actions/workflows/ci.yml)
 
 | [![NuGet](https://img.shields.io/nuget/dt/DotNetProjects.Extended.Wpf.Toolkit.svg)](http://nuget.org/packages/DotNetProjects.Extended.Wpf.Toolkit) | DotNetProjects.Extended.Wpf.Toolkit |
