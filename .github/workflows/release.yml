@@ -150,6 +150,11 @@ jobs:
         # `gh release create` also creates the tag when it does not exist yet,
         # which is what makes the manual workflow_dispatch path work.
 
+      # WARNING: the package ids in the csproj files -- DotNetProjects.Extended.Wpf.Toolkit
+      # and DotNetProjects.Extended.Wpf.DataGrid -- belong to the upstream project on
+      # NuGet.org, and this account does not own them. Adding a NUGET_API_KEY secret
+      # without first renaming PackageId will make this step fail with a 403, which is
+      # a permissions error and not a problem with the packages themselves.
       - name: Push the packages to NuGet.org
         if: ${{ env.NUGET_API_KEY != '' && (github.event_name == 'push' || inputs.publish_nuget) }}
         run: >
