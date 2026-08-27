@@ -15,6 +15,7 @@
   ***********************************************************************************/
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -33,12 +34,17 @@ namespace Xceed.Wpf.Toolkit
       using( MemoryStream ms = new MemoryStream() )
       {
         tr.Save( ms, DataFormats.Xaml );
-        return ASCIIEncoding.Default.GetString( ms.ToArray() );
+        var xaml = ASCIIEncoding.Default.GetString( ms.ToArray() );
+        //the Xaml conversion of a TextRange only preserves the properties it knows about:
+        //write the alt text of the pictures explicitly.
+        return XamlAltText.Insert( xaml, RichTextBoxImage.GetAltTexts( document ) );
       }
     }
 
     public void SetText( System.Windows.Documents.FlowDocument document, string text )
     {
+      IList<string> altTexts = XamlAltText.Extract( text );
+
       try
       {
         //if the text is null/empty clear the contents of the RTB. If you were to pass a null/empty string
@@ -60,6 +66,8 @@ namespace Xceed.Wpf.Toolkit
       {
         throw new InvalidDataException( "Data provided is not in the correct Xaml format." );
       }
+
+      RichTextBoxImage.ApplyAltTexts( document, altTexts );
     }
   }
 }
