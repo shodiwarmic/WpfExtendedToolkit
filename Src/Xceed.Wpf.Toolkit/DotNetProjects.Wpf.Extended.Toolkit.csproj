@@ -20,6 +20,11 @@
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net4'">
+    <!-- Supplies the .NET Framework 4.0 reference assemblies, which are no longer part of
+         Visual Studio or the GitHub Actions Windows images. Build-time only. -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net40" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="**\*.png" />
   </ItemGroup>

@@ -1,0 +1,170 @@
+name: Release
+
+# Two ways to cut a release:
+#   1. Push an annotated tag on Extended, e.g. `git tag v5.0.12 && git push origin v5.0.12`.
+#   2. Run this workflow manually and give it a version; the tag is then created for you.
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release, without the leading v (e.g. 5.0.12 or 5.1.0-beta.1)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Mark the GitHub release as a pre-release'
+        required: false
+        default: false
+        type: boolean
+      publish_nuget:
+        description: 'Also push the packages to NuGet.org (needs the NUGET_API_KEY secret)'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  SOLUTION: DotNetProjects.Wpf.Extended.Toolkit.sln
+  TEST_PROJECT: Src/Xceed.Wpf.Toolkit.Tests/DotNetProjects.Wpf.Extended.Toolkit.Tests.csproj
+
+jobs:
+  release:
+    name: Build, publish and release
+    runs-on: windows-latest
+    env:
+      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version
+        shell: pwsh
+        run: |
+          if ( '${{ github.event_name }}' -eq 'workflow_dispatch' ) {
+            $version = '${{ inputs.version }}'.TrimStart('v')
+          } else {
+            $version = '${{ github.ref_name }}'.TrimStart('v')
+          }
+
+          if ( $version -notmatch '^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$' ) {
+            throw "Version '$version' is not a valid semantic version."
+          }
+
+          # AssemblyVersion / FileVersion cannot carry a pre-release suffix.
+          $numericVersion = ($version -split '-')[ 0 ]
+
+          "RELEASE_VERSION=$version"   | Out-File -FilePath $env:GITHUB_ENV -Append
+          "NUMERIC_VERSION=$numericVersion" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "RELEASE_TAG=v$version"      | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Verify the release commit is on Extended
+        shell: pwsh
+        run: |
+          git fetch --no-tags origin Extended:refs/remotes/origin/Extended
+          git merge-base --is-ancestor $env:GITHUB_SHA origin/Extended
+          if ( $LASTEXITCODE -ne 0 ) {
+            throw "Releases must be cut from a commit that is on the Extended branch."
+          }
+          Write-Host "Commit $env:GITHUB_SHA is on Extended."
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Restore
+        run: dotnet restore ${{ env.SOLUTION }}
+
+      - name: Build
+        run: >
+          dotnet build ${{ env.SOLUTION }}
+          --configuration Release
+          --no-restore
+          -p:Version=${{ env.RELEASE_VERSION }}
+          -p:AssemblyVersion=${{ env.NUMERIC_VERSION }}.0
+          -p:FileVersion=${{ env.NUMERIC_VERSION }}.0
+          -p:ContinuousIntegrationBuild=true
+
+      - name: Test
+        run: >
+          dotnet test ${{ env.TEST_PROJECT }}
+          --configuration Release
+          --no-build
+          --logger "trx;LogFileName=test-results.trx"
+          --results-directory artifacts/test-results
+
+      - name: Collect release assets
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts/packages | Out-Null
+          Get-ChildItem -Path Src -Recurse -File |
+            Where-Object { $_.Extension -in '.nupkg', '.snupkg' -and $_.FullName -like '*\bin\Release\*' } |
+            Copy-Item -Destination artifacts/packages
+
+          $packages = Get-ChildItem artifacts/packages -Filter *.nupkg
+          if ( $packages.Count -eq 0 ) {
+            throw "No NuGet packages were produced."
+          }
+          $packages | ForEach-Object { Write-Host "Packaged $($_.Name)" }
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ env.RELEASE_VERSION }}
+          path: artifacts/packages/*
+
+      - name: Create the GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $isPrerelease = ( '${{ inputs.prerelease }}' -eq 'true' ) -or ( '${{ env.RELEASE_VERSION }}' -like '*-*' )
+
+          $arguments = @(
+            'release', 'create', $env:RELEASE_TAG,
+            '--title', "v$env:RELEASE_VERSION",
+            '--generate-notes',
+            '--target', $env:GITHUB_SHA
+          )
+          if ( $isPrerelease ) { $arguments += '--prerelease' }
+          $arguments += ( Get-ChildItem artifacts/packages/*.nupkg | ForEach-Object { $_.FullName } )
+
+          gh @arguments
+        # `gh release create` also creates the tag when it does not exist yet,
+        # which is what makes the manual workflow_dispatch path work.
+
+      # WARNING: the package ids in the csproj files -- DotNetProjects.Extended.Wpf.Toolkit
+      # and DotNetProjects.Extended.Wpf.DataGrid -- belong to the upstream project on
+      # NuGet.org, and this account does not own them. Adding a NUGET_API_KEY secret
+      # without first renaming PackageId will make this step fail with a 403, which is
+      # a permissions error and not a problem with the packages themselves.
+      - name: Push the packages to NuGet.org
+        if: ${{ env.NUGET_API_KEY != '' && (github.event_name == 'push' || inputs.publish_nuget) }}
+        run: >
+          dotnet nuget push "artifacts/packages/*.nupkg"
+          --source https://api.nuget.org/v3/index.json
+          --api-key ${{ secrets.NUGET_API_KEY }}
+          --skip-duplicate
+
+      - name: Note the skipped NuGet push
+        if: ${{ env.NUGET_API_KEY == '' }}
+        shell: pwsh
+        run: |
+          Write-Host "::notice::NUGET_API_KEY is not configured, so the packages were only attached to the GitHub release."

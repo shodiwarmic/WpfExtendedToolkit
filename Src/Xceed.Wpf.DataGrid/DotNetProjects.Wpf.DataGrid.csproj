@@ -20,6 +20,20 @@
   <ItemGroup>
     <ProjectReference Include="..\Xceed.Wpf.Toolkit\DotNetProjects.Wpf.Extended.Toolkit.csproj" />
   </ItemGroup>
+  <!-- System.Drawing.Common lives in the WindowsDesktop shared framework but is gated behind
+       its WindowsForms profile, so a WPF-only project does not get it and the NuGet package's
+       compile asset resolves to the empty placeholder. GroupHeaderControl, ImageConverter,
+       DataGridContext and DragSourceManagerBase all use System.Drawing types, so opt into that
+       profile. It costs consumers nothing at runtime: the assembly already ships with the
+       WindowsDesktop runtime they load for WPF. -->
+  <ItemGroup Condition="$(TargetFramework.EndsWith('-windows'))">
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net4'">
+    <!-- Supplies the .NET Framework 4.0 reference assemblies, which are no longer part of
+         Visual Studio or the GitHub Actions Windows images. Build-time only. -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net40" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net4'">
     <Reference Include="System.Data.Entity">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

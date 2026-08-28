@@ -1,7 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/c7mad20yer1iod92/branch/Extended?svg=true)](https://ci.appveyor.com/project/jogibear9988/wpfextoolkit/branch/Extended)
-
-| [![NuGet](https://img.shields.io/nuget/dt/DotNetProjects.Extended.Wpf.Toolkit.svg)](http://nuget.org/packages/DotNetProjects.Extended.Wpf.Toolkit) | DotNetProjects.Extended.Wpf.Toolkit |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+[![CI](https://github.com/shodiwarmic/WpfExtendedToolkit/actions/workflows/ci.yml/badge.svg?branch=Extended)](https://github.com/shodiwarmic/WpfExtendedToolkit/actions/workflows/ci.yml)
 
 
 WpfExToolkit
@@ -9,25 +6,32 @@ WpfExToolkit
 
 A fork of https://wpftoolkit.codeplex.com/ and now (https://github.com/xceedsoftware/wpftoolkit) version 3 which was still released under a permissive license.
 
-But this fork is maintained and Pull Requests and Patches are accepted.
+This fork is maintained, and pull requests and patches are accepted.
 
-Another feature wich is not yet in the Xceed Version is NetCore 3 support!
+It targets .NET Framework 4, .NET Core 3.0 and .NET 6, 8 and 10.
 
 AvalonDock
 ----------
-Removed AvalonDock, it's maintained by Dirkster in this Repo https://github.com/Dirkster99/AvalonDock
+AvalonDock was removed; it is maintained by Dirkster in this repo: https://github.com/Dirkster99/AvalonDock
 
 NuGet
 -----
+The released packages are published by the upstream project:
 https://www.nuget.org/packages/DotNetProjects.Extended.Wpf.Toolkit/
+
+This fork does not push to NuGet.org. Its builds still produce `.nupkg` files as
+workflow artifacts and attach them to GitHub releases, under upstream's package ids.
 
 Info
 ----
-The "Master" Branch will always be synced to the official Github Version.
+Upstream keeps a "Master" branch that is always synced to the official GitHub version:
+https://github.com/dotnetprojects/WpfExtendedToolkit/tree/master
 
-In the "Extended" Branch will be a version with Patches
+The "Extended" branch holds the version with patches, and is the only branch this fork
+carries. There is no Master branch here, and the branch rules block one from being
+created -- see [.github/BRANCH_PROTECTION.md](.github/BRANCH_PROTECTION.md).
 
-I now also included the Brush Editor from http://colorbox.codeplex.com/
+The Brush Editor from http://colorbox.codeplex.com/ is also included.
 
 Licence is Ms-PL
 
@@ -38,3 +42,21 @@ Changes to original Toolkit Version:
  - IPAdress Editor in Property Grid
  - Brush Editor (https://colorbox.codeplex.com/)
  - A few AvalonDock fixes form AvalonDock HP
+
+
+Building, CI and releases
+-------------------------
+The solution builds with `dotnet build DotNetProjects.Wpf.Extended.Toolkit.sln -c Release`
+on Windows; WPF and the `net4` target framework cannot be built anywhere else.
+Unit tests live in `Src/Xceed.Wpf.Toolkit.Tests` and run with
+`dotnet test Src/Xceed.Wpf.Toolkit.Tests/DotNetProjects.Wpf.Extended.Toolkit.Tests.csproj`.
+
+Every pull request against `Extended` is built and tested by the
+[CI workflow](.github/workflows/ci.yml); `Extended` itself is protected so that
+changes can only arrive that way, and `master` is locked outright. See
+[.github/BRANCH_PROTECTION.md](.github/BRANCH_PROTECTION.md).
+
+Releases are cut by pushing a `v*` tag on `Extended` (or by running the
+[Release workflow](.github/workflows/release.yml) manually with a version). That builds,
+tests and packs the projects, creates the GitHub release with the `.nupkg` files attached,
+and pushes them to NuGet.org when the `NUGET_API_KEY` secret is configured.

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetProjects.Wpf.Extended
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetProjects.Wpf.DataGrid", "Src\Xceed.Wpf.DataGrid\DotNetProjects.Wpf.DataGrid.csproj", "{63648392-6CE9-4A60-96D4-F9FD718D29B0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetProjects.Wpf.Extended.Toolkit.Tests", "Src\Xceed.Wpf.Toolkit.Tests\DotNetProjects.Wpf.Extended.Toolkit.Tests.csproj", "{8B3E2A41-5C6D-4F19-9E2B-3D7A1C0F5E84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -27,6 +29,10 @@ Global
 		{63648392-6CE9-4A60-96D4-F9FD718D29B0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{63648392-6CE9-4A60-96D4-F9FD718D29B0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{63648392-6CE9-4A60-96D4-F9FD718D29B0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8B3E2A41-5C6D-4F19-9E2B-3D7A1C0F5E84}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8B3E2A41-5C6D-4F19-9E2B-3D7A1C0F5E84}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8B3E2A41-5C6D-4F19-9E2B-3D7A1C0F5E84}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8B3E2A41-5C6D-4F19-9E2B-3D7A1C0F5E84}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
