@@ -34,10 +34,10 @@ jobs:
 
     steps:
       - name: Check out
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             8.0.x
@@ -75,7 +75,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-results
           path: artifacts/test-results/**/*.trx
@@ -92,7 +92,7 @@ jobs:
 
       - name: Upload binaries
         if: github.event_name != 'pull_request'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: binaries-${{ env.BUILD_VERSION }}
           # One folder per target framework, mirroring the build output.
@@ -105,7 +105,7 @@ jobs:
 
       - name: Upload packages
         if: github.event_name != 'pull_request'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: packages-${{ env.BUILD_VERSION }}
           path: artifacts/packages/*.nupkg
