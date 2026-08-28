@@ -15,6 +15,7 @@
   ***********************************************************************************/
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -33,12 +34,18 @@ namespace Xceed.Wpf.Toolkit
       using( MemoryStream ms = new MemoryStream() )
       {
         tr.Save( ms, DataFormats.Rtf );
-        return ASCIIEncoding.Default.GetString( ms.ToArray() );
+        var rtf = ASCIIEncoding.Default.GetString( ms.ToArray() );
+        //the RTF conversion of WPF does not write the alt text of the pictures: add it back.
+        return RtfAltText.Insert( rtf, RichTextBoxImage.GetAltTexts( document ) );
       }
     }
 
     public void SetText( FlowDocument document, string text )
     {
+      //the RTF conversion of WPF drops the alt text of the pictures: read it before loading
+      //the document so that it can be restored once the pictures have been created.
+      IList<string> altTexts = RtfAltText.Extract( text );
+
       try
       {
         //if the text is null/empty clear the contents of the RTB. If you were to pass a null/empty string
@@ -60,6 +67,8 @@ namespace Xceed.Wpf.Toolkit
       {
         throw new InvalidDataException( "Data provided is not in the correct RTF format." );
       }
+
+      RichTextBoxImage.ApplyAltTexts( document, altTexts );
     }
   }
 }
