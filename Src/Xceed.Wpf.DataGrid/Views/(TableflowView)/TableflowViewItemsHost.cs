@@ -1077,9 +1077,11 @@ namespace Xceed.Wpf.DataGrid.Views
       StickyContainerInfoList stickyContainersToExclude,
       ICollection<UIElement> nonRecyclableContainers )
     {
-      for( int i = stickyContainers.Count - 1; i >= 0; i-- )
+      // Recycling a container has the generator remove it, and that removal takes the
+      // container out of this very list, through OnContainersRemoved. Walk a copy, and
+      // remove from the list by container rather than by position.
+      foreach( StickyContainerInfo stickyHeaderInfo in stickyContainers.ToList() )
       {
-        StickyContainerInfo stickyHeaderInfo = stickyContainers[ i ];
         UIElement container = stickyHeaderInfo.Container;
 
         if( m_layoutedContainers.ContainsContainer( container ) )
@@ -1094,7 +1096,12 @@ namespace Xceed.Wpf.DataGrid.Views
         var index = generator.GetRealizedIndexForContainer( container );
 
         this.RecycleContainer( generator, index, container );
-        stickyContainers.RemoveAt( i );
+
+        int stickyIndex = stickyContainers.IndexOfContainer( container );
+        if( stickyIndex >= 0 )
+        {
+          stickyContainers.RemoveAt( stickyIndex );
+        }
       }
     }
 
