@@ -209,6 +209,49 @@
                       Property="Grid.RowSpan"
                       Value="2" />
             </Trigger>
+
+            <!--Left placement & horizontal orientation of buttons-->
+            <MultiTrigger>
+              <MultiTrigger.Conditions>
+                <Condition Property="ButtonSpinnerLocation" Value="Left"/>
+                <Condition Property="ButtonSpinnerOrientation" Value="Horizontal"/>
+              </MultiTrigger.Conditions>
+              <Setter TargetName="firstContentColumn" Property="Width" Value="Auto"/>
+              <Setter TargetName="secondContentColumn" Property="Width" Value="Auto"/>
+              <Setter TargetName="thirdContentColumn" Property="Width" Value="*"/>
+
+              <Setter TargetName="contentPresenter" Property="Grid.Column" Value="2" />
+              <Setter TargetName="contentPresenter" Property="Grid.ColumnSpan" Value="1" />
+
+              <Setter TargetName="PART_IncreaseButton" Property="Grid.Column" Value="1" />
+              <Setter TargetName="PART_IncreaseButton" Property="Grid.Row" Value="0" />
+              <Setter TargetName="PART_IncreaseButton" Property="Grid.RowSpan" Value="2" />
+              <Setter TargetName="PART_DecreaseButton" Property="Grid.Column" Value="0" />
+              <Setter TargetName="PART_DecreaseButton" Property="Grid.Row" Value="0" />
+              <Setter TargetName="PART_DecreaseButton" Property="Grid.RowSpan" Value="2" />
+            </MultiTrigger>
+
+            <!--Right placement & horizontal orientation of buttons-->
+            <MultiTrigger>
+              <MultiTrigger.Conditions>
+                <Condition Property="ButtonSpinnerLocation" Value="Right"/>
+                <Condition Property="ButtonSpinnerOrientation" Value="Horizontal"/>
+              </MultiTrigger.Conditions>
+              <Setter TargetName="firstContentColumn" Property="Width" Value="*"/>
+              <Setter TargetName="secondContentColumn" Property="Width" Value="Auto"/>
+              <Setter TargetName="thirdContentColumn" Property="Width" Value="Auto"/>
+
+              <Setter TargetName="contentPresenter" Property="Grid.Column" Value="0" />
+              <Setter TargetName="contentPresenter" Property="Grid.ColumnSpan" Value="1" />
+
+              <Setter TargetName="PART_IncreaseButton" Property="Grid.Column" Value="2" />
+              <Setter TargetName="PART_IncreaseButton" Property="VerticalContentAlignment" Value="Stretch" />
+              <Setter TargetName="PART_IncreaseButton" Property="Grid.Row" Value="0" />
+              <Setter TargetName="PART_IncreaseButton" Property="Grid.RowSpan" Value="2" />
+              <Setter TargetName="PART_DecreaseButton" Property="Grid.Column" Value="1" />
+              <Setter TargetName="PART_DecreaseButton" Property="Grid.Row" Value="0" />
+              <Setter TargetName="PART_DecreaseButton" Property="Grid.RowSpan" Value="2" />
+            </MultiTrigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
       </Setter.Value>

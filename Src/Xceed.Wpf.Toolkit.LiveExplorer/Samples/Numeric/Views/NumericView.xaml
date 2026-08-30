@@ -84,6 +84,14 @@
       </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
+    <ObjectDataProvider x:Key="ButtonSpinnerOrientationComboBox"
+                        MethodName="GetValues"
+                        ObjectType="{x:Type sys:Enum}">
+      <ObjectDataProvider.MethodParameters>
+        <x:Type TypeName="Orientation" />
+      </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+
     <Style x:Key="ControlInError"
            TargetType="Control">
       <Style.Triggers>
@@ -320,13 +328,25 @@
                     HorizontalAlignment="Stretch"
                     Margin="5" />
 
-          <TextBlock Grid.Column="4"
+          <TextBlock Text="ButtonSpinnerOrientation:"
+                     Grid.Column="4"
                      Grid.Row="1"
+                     VerticalAlignment="Center"
+                     Margin="10,0,0,0"/>
+          <ComboBox Grid.Column="5"
+                    Grid.Row="1"
+                    ItemsSource="{Binding Source={StaticResource ButtonSpinnerOrientationComboBox}}"
+                    SelectedValue="{Binding ButtonSpinnerOrientation, ElementName=_doubleUpDown}"
+                    HorizontalAlignment="Stretch"
+                    Margin="5" />
+
+          <TextBlock Grid.Column="4"
+                     Grid.Row="2"
                      Text="ParsingNumberStyle:"
                      VerticalAlignment="Center"
                      Margin="10,0,0,0" />
           <ComboBox Grid.Column="5"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     ItemsSource="{Binding Source={StaticResource ParsingNumberStyleComboBox}}"
                     SelectedValue="{Binding ParsingNumberStyle, ElementName=_doubleUpDown}"
                     ToolTip="{StaticResource parsingNumberStyleTooltip}"
@@ -335,22 +355,22 @@
 
           <TextBlock Text="Watermark:"
                      Grid.Column="4"
-                     Grid.Row="2"
+                     Grid.Row="3"
                      VerticalAlignment="Center"
                      Margin="10,0,0,0" />
           <TextBox Grid.Column="5"
-                   Grid.Row="2"
+                   Grid.Row="3"
                    HorizontalAlignment="Stretch"
                    Margin="5"
                    Text="{Binding Watermark, ElementName=_doubleUpDown}" />
 
           <TextBlock Text="Default Value:"
                      Grid.Column="4"
-                     Grid.Row="3"
+                     Grid.Row="4"
                      VerticalAlignment="Center"
                      Margin="10,0,0,0" />
           <xctk:DoubleUpDown Grid.Column="5"
-                             Grid.Row="3"
+                             Grid.Row="4"
                              Value="{Binding DefaultValue, ElementName=_doubleUpDown}"
                              AllowInputSpecialValues="Any"
                              VerticalAlignment="Center"
@@ -359,11 +379,11 @@
 
           <TextBlock Text="Value:"
                      Grid.Column="4"
-                     Grid.Row="4"
+                     Grid.Row="5"
                      VerticalAlignment="Center"
                      Margin="10,0,0,0" />
           <xctk:DoubleUpDown Grid.Column="5"
-                             Grid.Row="4"
+                             Grid.Row="5"
                              Value="{Binding Value, ElementName=_doubleUpDown, ValidatesOnExceptions=True}"
                              AllowInputSpecialValues="Any"
                              Style="{StaticResource ControlInError}"
@@ -373,11 +393,11 @@
 
           <TextBlock Text="Text:"
                      Grid.Column="4"
-                     Grid.Row="5"
+                     Grid.Row="6"
                      VerticalAlignment="Center"
                      Margin="10,0,0,0" />
           <TextBox Grid.Column="5"
-                   Grid.Row="5"
+                   Grid.Row="6"
                    Text="{Binding Text, ElementName=_doubleUpDown}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Stretch"
