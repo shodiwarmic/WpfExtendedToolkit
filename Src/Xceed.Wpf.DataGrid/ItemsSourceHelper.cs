@@ -1496,7 +1496,7 @@ namespace Xceed.Wpf.DataGrid
       }
       else
       {
-        ItemsSourceHelper.SetPropertyDescriptions( propertyDescriptions, model, itemsSource, itemType, false );
+        ItemsSourceHelper.SetPropertyDescriptions( propertyDescriptions, model, itemsSource, itemType, true );
 
         var currentSegment = propertyRoute.Current;
         if( currentSegment.Type == PropertyRouteSegmentType.Indexer )
