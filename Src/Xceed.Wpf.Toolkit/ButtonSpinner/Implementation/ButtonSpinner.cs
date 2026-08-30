@@ -15,6 +15,7 @@
   ***********************************************************************************/
 
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -80,6 +81,23 @@ namespace Xceed.Wpf.Toolkit
     }
 
     #endregion //ButtonSpinnerLocation
+
+    #region ButtonSpinnerOrientation
+
+    public static readonly DependencyProperty ButtonSpinnerOrientationProperty = DependencyProperty.Register("ButtonSpinnerOrientation", typeof(Orientation), typeof(ButtonSpinner), new UIPropertyMetadata(Orientation.Vertical));
+    public Orientation ButtonSpinnerOrientation
+    {
+      get
+      {
+        return (Orientation)GetValue(ButtonSpinnerOrientationProperty);
+      }
+      set
+      {
+        SetValue(ButtonSpinnerOrientationProperty, value);
+      }
+    }
+
+    #endregion //ButtonSpinnerOrientation
 
     #region ButtonWidth
     public double ButtonWidth

@@ -103,6 +103,24 @@ new UIPropertyMetadata( true ) );
 
     #endregion //ButtonSpinnerLocation
 
+    #region ButtonSpinnerOrientation
+
+    public static readonly DependencyProperty ButtonSpinnerOrientationProperty = DependencyProperty.Register("ButtonSpinnerOrientation", typeof(Orientation), 
+      typeof(UpDownBase<T>), new UIPropertyMetadata(Orientation.Vertical));
+    public Orientation ButtonSpinnerOrientation
+    {
+      get
+      {
+        return (Orientation)GetValue(ButtonSpinnerOrientationProperty);
+      }
+      set
+      {
+        SetValue(ButtonSpinnerOrientationProperty, value);
+      }
+    }
+
+    #endregion //ButtonSpinnerOrientation
+
     #region ButtonWidth
     public double ButtonWidth
     {
